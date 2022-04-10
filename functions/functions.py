@@ -21,3 +21,21 @@ def count_letters(l):
             else:
                 letter[letters[x]][word[x]] += 1
     return letter
+
+# Assigned values of letters to words from list
+def rate_word(list_word,count_dict):
+    output_long = dict()
+    output_short = dict()
+    for word in list_word:
+        output_long[word] = dict()
+        output_long[word]["count"] = 0
+        output_short[word] = 0
+        for key in count_dict:
+            if  word[key] in output_long[word].keys():
+                output_long[word]["count"] += 0
+                output_short[word] += 0
+            else:
+                output_long[word][word[key]] = count_dict[key][word[key]]
+                output_long[word]["count"] += count_dict[key][word[key]] 
+                output_short[word] += count_dict[key][word[key]]
+    return output_long, output_short
