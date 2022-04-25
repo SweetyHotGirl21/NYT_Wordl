@@ -41,54 +41,60 @@ def rate_word(list_word,count_dict):
     return output_long, output_short
 
 
-def word_list_adjust(privious_list, dict_correct_wrong, list_worng, dict_correct):
-    filter_correct = []
-    # keep words which contain the correct letters
-    for letter in dict_correct_wrong.keys():
-        if len(filter_correct) == 0:
-            filter_correct = [word for word in privious_list if letter in word]
-        else:
-            cache = [i for i in privious_list if letter in i]
-            filter_correct = [element for element in filter_correct if element in cache]
-
-    # delete words from list containing worng letters
-    word_list = []
-    for l in range(len(list_worng)):
-        if len(word_list) == 0:
-            word_list = [i for i in filter_correct if list_worng[l] not in i]
-        else:
-            cache = [i for i in filter_correct if list_worng[l] not in i]
-            word_list = [element for element in word_list if element in cache]
-
-    # removing words with check letters in worng spot
-    proof = len(word_list)-1
-    while len(word_list) != proof:
-        print(len(word_list))
-        proof = len(word_list)
-        for letter in dict_correct_wrong.keys():
-            # print(letter)
-            for postion in dict_correct_wrong[letter]:
-                print(postion)
-                for word in word_list:
-                    # if word == "isbas":
-                    #     print("Fuck",postion, word.index(letter))
-                    # if dict_correct_wrong[letter][postion] == word.index(letter):
-                    #     word_list.remove(word)
-                    if postion == word.index(letter):
-                        word_list.remove(word)
-    fucking_list = word_list.copy()
-    for letter in dict_correct.keys():
-        print(letter)
-        # print(letter)
-        print(fucking_list)
-        print("\n")
-        for word in fucking_list:
-            print(word)
-            if word == "isbas":
-                print("Fuck",dict_correct[letter], word.index(letter))
-            if dict_correct[letter] != word.index(letter):
-                fucking_list.remove(word)
-
+# Keep Words with present letters 
+def filter_present(dict_present, initial_list):
+    present_list = []
+    if dict_present.__len__() == 0:
+        present_list = initial_list.copy()
+    else:
+        for letter in dict_present.keys():
+            if len(present_list) == 0:
+                present_list = [word for word in initial_list if letter in word]
+            else:
+                cache = [i for i in initial_list if letter in i]
+                present_list = [element for element in present_list if element in cache]
     
-    return fucking_list 
+    return present_list
 
+# Keep words with present letter wrong spot
+def filter_present_spot(dict_present,list_present):
+    present_spot_list = list_present.copy()
+    cache = []
+    for letter in dict_present.keys():
+        for postion in dict_present[letter]:
+            print(letter, postion)
+            for word in present_spot_list:
+                if word.index(letter) == postion:
+                    cache.append(word)
+                        
+    present_spot_out = [element for element in present_spot_list if element not in cache]
+
+    return present_spot_out
+
+# Remove words with absend letters 
+def filter_absent(list_absent, initial_list):
+    absent_list = []
+    if len(list_absent) == 0:
+        absent_list = initial_list.copy()
+    else:
+        for letter in list_absent:
+            if len(absent_list) == 0:
+                absent_list = [word for word in initial_list if letter not in word]
+            else:
+                cache = [word for word in initial_list if letter not in word]
+                absent_list = [element for element in cache if element in absent_list]
+
+    return absent_list
+
+# Keep words with correct letters
+def filter_correct(dict_correct, list_present_spot):
+    list_correct = list_present_spot.copy()
+    cache = []
+    for letter in dict_correct.keys():
+        for word in list_correct:
+            if dict_correct[letter] != word.index(letter):
+                cache.append(word)
+
+    list_correct_out = [element for element in list_correct if element not in cache]
+
+    return list_correct_out
