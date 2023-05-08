@@ -3,7 +3,7 @@ import numpy as np
 
 
 # select words of lenght 5
-def by_size(words, size):
+def by_size(words : list, size : int):
     size_list = [word for word in words if len(word) == size]
     alpha_list = [i for i in size_list if i.isalpha()] 
     return alpha_list
@@ -23,7 +23,7 @@ def count_letters(l):
     return letter
 
 # Assigned values of letters to words from list
-def rate_word(list_word,count_dict):
+def rate_word(list_word:list,count_dict:dict):
     output_long = dict()
     output_short = dict()
     for word in list_word:
@@ -42,7 +42,7 @@ def rate_word(list_word,count_dict):
 
 
 # Keep Words with present letters 
-def filter_present(dict_present, initial_list):
+def filter_present(dict_present:dict, initial_list:list) -> list:
     present_list = []
     if dict_present.__len__() == 0:
         present_list = initial_list.copy()
@@ -57,7 +57,7 @@ def filter_present(dict_present, initial_list):
     return present_list
 
 # Keep words with present letter wrong spot
-def filter_present_spot(dict_present,list_present):
+def filter_present_spot(dict_present:dict,list_present:list) -> list:
     present_spot_list = list_present.copy()
     cache = []
     for letter in dict_present.keys():
@@ -72,7 +72,7 @@ def filter_present_spot(dict_present,list_present):
     return present_spot_out
 
 # Remove words with absend letters 
-def filter_absent(list_absent, initial_list):
+def filter_absent(list_absent:list, initial_list:list) ->list:
     absent_list = []
     if len(list_absent) == 0:
         absent_list = initial_list.copy()
@@ -87,7 +87,7 @@ def filter_absent(list_absent, initial_list):
     return absent_list
 
 # Keep words with correct letters
-def filter_correct(dict_correct, list_present_spot):
+def filter_correct(dict_correct:dict, list_present_spot:list) -> list:
     list_correct = list_present_spot.copy()
     cache = []
     for letter in dict_correct.keys():
